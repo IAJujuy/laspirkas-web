@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CAP · Ticket generado</title>
+    <link rel="stylesheet" href="/style.css" />
+</head>
+<body class="page page-ticket">
+
+<div class="ticket-shell">
+    <header class="ticket-toolbar no-print">
+        <div>
+            <p class="eyebrow">INTERJAMA · Medición de Camiones</p>
+            <h1>Ticket generado</h1>
+        </div>
+
+        <div class="toolbar-actions">
+            <button id="printButton" class="primary-button" type="button">Imprimir</button>
+            <a href="/" class="ghost-button button-link">Nuevo ticket</a>
+        </div>
+    </header>
+
+    <main id="ticketContainer" class="ticket-paper">
+        <section class="ticket-header">
+            <div>
+                <p class="ticket-company">INTERJAMA</p>
+                <h2>Ticket de medición de camión</h2>
+            </div>
+
+            <div class="ticket-meta">
+                <div class="meta-row">
+                    <span class="meta-label">N° Ticket</span>
+                    <span id="numeroTicket">-</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-label">Fecha / Hora</span>
+                    <span id="fechaHora">-</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="ticket-section">
+            <h3>Datos del vehículo</h3>
+            <div class="data-grid">
+                <div class="data-item">
+                    <span class="data-label">Patente</span>
+                    <span id="patente" class="data-value">-</span>
+                </div>
+
+                <div class="data-item">
+                    <span class="data-label">Acoplado</span>
+                    <span id="acoplado" class="data-value">-</span>
+                </div>
+
+                <div class="data-item">
+                    <span class="data-label">Transportista</span>
+                    <span id="transportista" class="data-value">-</span>
+                </div>
+
+                <div class="data-item">
+                    <span class="data-label">Chofer</span>
+                    <span id="chofer" class="data-value">-</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="ticket-section">
+            <h3>Medidas registradas</h3>
+            <div class="measures-grid">
+                <div class="measure-box">
+                    <span class="measure-label">Largo</span>
+                    <span id="largoMetros" class="measure-value">-</span>
+                </div>
+
+                <div class="measure-box">
+                    <span class="measure-label">Ancho</span>
+                    <span id="anchoMetros" class="measure-value">-</span>
+                </div>
+
+                <div class="measure-box">
+                    <span class="measure-label">Alto</span>
+                    <span id="altoMetros" class="measure-value">-</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="ticket-section">
+            <h3>Observaciones</h3>
+            <div id="observaciones" class="observaciones-box">-</div>
+        </section>
+
+        <footer class="ticket-footer">
+            <div class="signature-box">
+                <span>Firma operador</span>
+            </div>
+            <div class="signature-box">
+                <span>Firma transportista / chofer</span>
+            </div>
+        </footer>
+    </main>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>

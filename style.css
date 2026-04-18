@@ -1,0 +1,533 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #1f2937;
+    background: #eef2f7;
+}
+
+.page {
+    min-height: 100vh;
+}
+
+.app-shell,
+.ticket-shell {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.topbar,
+.ticket-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.eyebrow {
+    margin: 0 0 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #4b5563;
+}
+
+h1,
+h2,
+h3,
+p {
+    margin-top: 0;
+}
+
+h1 {
+    margin-bottom: 0;
+    font-size: 2rem;
+    line-height: 1.15;
+}
+
+.card {
+    background: #ffffff;
+    border: 1px solid #dbe2ea;
+    border-radius: 16px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+}
+
+.card-form {
+    padding: 28px;
+}
+
+.card-header {
+    margin-bottom: 24px;
+}
+
+.card-header h2 {
+    margin-bottom: 8px;
+    font-size: 1.3rem;
+}
+
+.card-header p {
+    margin-bottom: 0;
+    color: #6b7280;
+}
+
+.ticket-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-field-full {
+    width: 100%;
+}
+
+label {
+    font-weight: 700;
+    color: #374151;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: #ffffff;
+    font-size: 1rem;
+    color: #111827;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 110px;
+}
+
+.form-actions,
+.toolbar-actions,
+.topbar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.primary-button,
+.ghost-button,
+.button-link,
+.secondary-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 0.98rem;
+}
+
+.primary-button {
+    border: none;
+    background: #1d4ed8;
+    color: #ffffff;
+}
+
+.primary-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.ghost-button,
+.button-link,
+.secondary-link {
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #1f2937;
+}
+
+.secondary-label {
+    cursor: default;
+}
+
+.form-message {
+    min-height: 24px;
+    font-weight: 700;
+}
+
+.form-message.success {
+    color: #047857;
+}
+
+.form-message.error {
+    color: #b91c1c;
+}
+
+.ticket-paper {
+    background: #ffffff;
+    border: 1px solid #dbe2ea;
+    border-radius: 16px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+    padding: 22px;
+}
+
+.ticket-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.ticket-company {
+    margin: 0 0 6px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.ticket-header h2 {
+    margin: 0 0 6px;
+    font-size: 1.25rem;
+    line-height: 1.2;
+}
+
+.ticket-subtitle {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.95rem;
+    line-height: 1.3;
+}
+
+.ticket-meta {
+    min-width: 220px;
+}
+
+.meta-row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 8px;
+}
+
+.meta-row:last-child {
+    margin-bottom: 0;
+}
+
+.meta-label,
+.data-label,
+.measure-label {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #6b7280;
+}
+
+.ticket-section {
+    margin-bottom: 12px;
+}
+
+.ticket-section h3 {
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.data-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.data-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #f8fafc;
+}
+
+.data-value {
+    font-weight: 700;
+    font-size: 0.98rem;
+    line-height: 1.2;
+}
+
+.measures-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.measure-box {
+    padding: 10px 8px;
+    border: 1px solid #dbe2ea;
+    border-radius: 12px;
+    text-align: center;
+    background: #f8fafc;
+}
+
+.measure-value {
+    display: block;
+    margin-top: 6px;
+    font-size: 1.05rem;
+    font-weight: 800;
+}
+
+.observaciones-box {
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #f8fafc;
+    white-space: pre-wrap;
+    line-height: 1.3;
+}
+
+.ticket-footer {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.signature-box {
+    height: 46px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 8px;
+    font-weight: 700;
+    color: #4b5563;
+    background: #ffffff;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 860px) {
+    .topbar,
+    .ticket-toolbar,
+    .ticket-header {
+        flex-direction: column;
+    }
+
+    .form-grid,
+    .data-grid,
+    .measures-grid,
+    .ticket-footer {
+        grid-template-columns: 1fr;
+    }
+
+    .ticket-meta {
+        min-width: auto;
+        width: 100%;
+    }
+
+    .app-shell,
+    .ticket-shell {
+        padding: 16px;
+    }
+
+    .card-form,
+    .ticket-paper {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 1.7rem;
+    }
+
+    .ticket-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .measure-value {
+        font-size: 1.1rem;
+    }
+}
+
+@media print {
+    @page {
+        size: A4;
+        margin: 8mm;
+    }
+
+    html,
+    body {
+        background: #ffffff;
+        color: #000000;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-size: 10.5px;
+        line-height: 1.15;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .ticket-shell {
+        max-width: none;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    .ticket-paper {
+        box-shadow: none;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        margin: 0;
+    }
+
+    .ticket-header {
+        gap: 10px;
+        padding-bottom: 7px;
+        margin-bottom: 8px;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .ticket-company {
+        margin-bottom: 3px;
+        font-size: 16px;
+    }
+
+    .ticket-header h2 {
+        margin-bottom: 3px;
+        font-size: 16px;
+    }
+
+    .ticket-subtitle {
+        font-size: 10px;
+        line-height: 1.15;
+    }
+
+    .ticket-meta {
+        min-width: 190px;
+        font-size: 10px;
+    }
+
+    .meta-row {
+        margin-bottom: 5px;
+    }
+
+    .meta-label,
+    .data-label,
+    .measure-label {
+        font-size: 9px;
+    }
+
+    .ticket-section {
+        margin-bottom: 7px;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .ticket-section h3 {
+        margin-bottom: 5px;
+        font-size: 12px;
+    }
+
+    .data-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 5px;
+    }
+
+    .data-item {
+        padding: 7px 8px;
+        border-radius: 7px;
+        gap: 1px;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .data-value {
+        font-size: 10px;
+        line-height: 1.15;
+    }
+
+    .measures-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 5px;
+    }
+
+    .measure-box {
+        padding: 7px 6px;
+        border-radius: 8px;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .measure-value {
+        margin-top: 3px;
+        font-size: 13px;
+    }
+
+    .observaciones-box {
+        min-height: 28px;
+        max-height: 70px;
+        overflow: hidden;
+        padding: 7px 8px;
+        border-radius: 7px;
+        line-height: 1.15;
+        font-size: 10px;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .ticket-footer {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px;
+        margin-top: 8px;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .signature-box {
+        height: 32px;
+        padding: 5px;
+        border-radius: 7px;
+        font-size: 9px;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    a,
+    button {
+        display: none !important;
+    }
+}

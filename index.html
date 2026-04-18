@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INTERJAMA · Ticket de Medición</title>
+  <style>
+    :root {
+      --bg: #f1ece6;
+      --paper: #fffdf9;
+      --line: #b9ac9d;
+      --line-strong: #8e7e6f;
+      --ink: #322922;
+      --muted: #6e6258;
+      --accent: #7d2f2f;
+      --soft: #f8f6f0;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      padding: 18px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .top-actions button {
+      appearance: none;
+      border: 1px solid var(--line-strong);
+      background: var(--soft);
+      color: var(--ink);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .top-actions button:hover {
+      background: #efe8de;
+    }
+
+    .ticket-sheet {
+      width: min(100%, 210mm);
+      min-height: 277mm;
+      margin: 0 auto;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+      padding: 9mm 10mm 8mm;
+    }
+
+    .ticket-header {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 10px;
+      align-items: start;
+      border-bottom: 1px solid var(--line-strong);
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+    }
+
+    .brand-title {
+      font-size: 26px;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      margin: 0 0 4px;
+    }
+
+    .brand-subtitle {
+      margin: 0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.35;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .ticket-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .meta-box {
+      border: 1px solid var(--line);
+      padding: 8px;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .meta-label,
+    .field label,
+    .section-title,
+    .table-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .meta-value {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .section {
+      margin-top: 8px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px;
+      background: #fff;
+    }
+
+    .section-title {
+      margin-bottom: 8px;
+      color: var(--accent);
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+      display: grid;
+      gap: 8px;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      padding: 9px 10px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: var(--line-strong);
+      box-shadow: 0 0 0 2px rgba(142, 126, 111, 0.14);
+    }
+
+    .field textarea {
+      min-height: 74px;
+      resize: vertical;
+    }
+
+    .measure-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .measure-table th,
+    .measure-table td {
+      border: 1px solid var(--line);
+      padding: 7px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .measure-table th {
+      background: #faf7f2;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .measure-table input {
+      width: 100%;
+      border: 0;
+      padding: 6px 4px;
+      text-align: center;
+      font-size: 15px;
+      background: transparent;
+      color: var(--ink);
+    }
+
+    .measure-table input:focus {
+      outline: 1px solid rgba(142, 126, 111, 0.22);
+      border-radius: 4px;
+    }
+
+    .signature-wrap {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 8px;
+      align-items: start;
+    }
+
+    .signature-box {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .signature-pad {
+      width: 100%;
+      height: 140px;
+      display: block;
+      touch-action: none;
+      background:
+        linear-gradient(to bottom, transparent 95%, rgba(0,0,0,0.04) 95%) 0 0 / 100% 34px,
+        #fff;
+    }
+
+    .signature-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border-top: 1px solid var(--line);
+      background: #faf7f2;
+    }
+
+    .signature-actions button {
+      appearance: none;
+      border: 1px solid var(--line-strong);
+      background: var(--soft);
+      color: var(--ink);
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .legend {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.35;
+      margin: 0;
+    }
+
+    .footer-note {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      padding-top: 6px;
+    }
+
+    .print-only { display: none; }
+
+    @media (max-width: 768px) {
+      body { padding: 10px; }
+      .ticket-sheet { padding: 12px; }
+      .ticket-header,
+      .signature-wrap,
+      .grid-2,
+      .grid-3,
+      .grid-4 {
+        grid-template-columns: 1fr;
+      }
+      .ticket-meta { grid-template-columns: 1fr 1fr; }
+      .brand-title { font-size: 22px; }
+      .measure-table th,
+      .measure-table td { padding: 6px 4px; }
+    }
+
+    @page {
+      size: A4;
+      margin: 8mm;
+    }
+
+    @media print {
+      html, body {
+        background: #fff;
+        padding: 0;
+        margin: 0;
+      }
+
+      .top-actions,
+      .signature-actions,
+      .screen-only {
+        display: none !important;
+      }
+
+      .print-only {
+        display: block;
+      }
+
+      .ticket-sheet {
+        width: 100%;
+        min-height: auto;
+        border: 0;
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      input,
+      textarea,
+      select {
+        border: 0 !important;
+        box-shadow: none !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        background: transparent !important;
+      }
+
+      .field input,
+      .field textarea,
+      .field select,
+      .meta-box,
+      .section,
+      .signature-box {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="top-actions screen-only">
+      <button type="button" id="btnNow">Cargar fecha y hora actual</button>
+      <button type="button" id="btnPrint">Imprimir / Guardar PDF</button>
+      <button type="button" id="btnReset">Limpiar ticket</button>
+    </div>
+
+    <main class="ticket-sheet">
+      <header class="ticket-header">
+        <div>
+          <h1 class="brand-title">INTERJAMA</h1>
+          <p class="brand-subtitle">Ticket de medición vehicular</p>
+          <p style="margin:6px 0 0;font-size:12px;color:#6e6258;line-height:1.35;">
+            Registro operativo demostración para visualizar, completar e imprimir en una sola hoja A4.
+          </p>
+        </div>
+
+        <div class="ticket-meta">
+          <div class="meta-box">
+            <span class="meta-label">Ticket N°</span>
+            <div class="meta-value" id="ticketNumber">TM-0001</div>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">Estado</span>
+            <div class="meta-value">Listo para imprimir</div>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">Fecha</span>
+            <div class="meta-value" id="metaDate">--/--/----</div>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">Hora</span>
+            <div class="meta-value" id="metaTime">--:--</div>
+          </div>
+        </div>
+      </header>
+
+      <section class="section">
+        <span class="section-title">Datos generales</span>
+        <div class="grid-4">
+          <div class="field">
+            <label for="fecha">Fecha</label>
+            <input id="fecha" name="fecha" type="date" />
+          </div>
+          <div class="field">
+            <label for="hora">Hora</label>
+            <input id="hora" name="hora" type="time" />
+          </div>
+          <div class="field">
+            <label for="operador">Operador</label>
+            <input id="operador" name="operador" type="text" placeholder="Nombre del operador" />
+          </div>
+          <div class="field">
+            <label for="puesto">Puesto / ubicación</label>
+            <input id="puesto" name="puesto" type="text" value="Paso de Jama" />
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <span class="section-title">Unidad medida</span>
+        <div class="grid-4">
+          <div class="field">
+            <label for="empresa">Empresa / cliente</label>
+            <input id="empresa" name="empresa" type="text" placeholder="Empresa" />
+          </div>
+          <div class="field">
+            <label for="tractor">Patente tractor</label>
+            <input id="tractor" name="tractor" type="text" placeholder="ABC123" style="text-transform:uppercase;" />
+          </div>
+          <div class="field">
+            <label for="semi">Patente semirremolque</label>
+            <input id="semi" name="semi" type="text" placeholder="DEF456" style="text-transform:uppercase;" />
+          </div>
+          <div class="field">
+            <label for="tipo">Tipo de unidad</label>
+            <select id="tipo" name="tipo">
+              <option value="">Seleccionar</option>
+              <option>Camión</option>
+              <option>Semirremolque</option>
+              <option>Bitren</option>
+              <option>Otro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-3" style="margin-top:8px;">
+          <div class="field">
+            <label for="chofer">Chofer</label>
+            <input id="chofer" name="chofer" type="text" placeholder="Nombre del chofer" />
+          </div>
+          <div class="field">
+            <label for="origen">Origen</label>
+            <input id="origen" name="origen" type="text" placeholder="Origen de carga" />
+          </div>
+          <div class="field">
+            <label for="destino">Destino</label>
+            <input id="destino" name="destino" type="text" placeholder="Destino" />
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <span class="section-title">Medidas verificadas</span>
+        <div class="table-label" style="margin-bottom:6px;">Completar en metros</div>
+        <table class="measure-table">
+          <thead>
+            <tr>
+              <th>Largo total</th>
+              <th>Ancho</th>
+              <th>Altura</th>
+              <th>Peso bruto</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" id="largo" placeholder="0.00" /></td>
+              <td><input type="text" id="ancho" placeholder="0.00" /></td>
+              <td><input type="text" id="alto" placeholder="0.00" /></td>
+              <td><input type="text" id="peso" placeholder="Opcional" /></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="grid-2" style="margin-top:8px;">
+          <div class="field">
+            <label for="carga">Tipo de carga</label>
+            <input id="carga" name="carga" type="text" placeholder="Descripción breve" />
+          </div>
+          <div class="field">
+            <label for="condicion">Condición observada</label>
+            <input id="condicion" name="condicion" type="text" placeholder="Normal / especial / observada" />
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:8px;">
+          <label for="observaciones">Observaciones</label>
+          <textarea id="observaciones" name="observaciones" placeholder="Detalle operativo, aclaraciones o particularidades de la medición."></textarea>
+        </div>
+      </section>
+
+      <section class="section">
+        <span class="section-title">Conformidad y firma</span>
+        <div class="signature-wrap">
+          <div>
+            <div class="signature-box">
+              <canvas id="signaturePad" class="signature-pad"></canvas>
+              <div class="signature-actions screen-only">
+                <span class="legend">Firma digital del operador o responsable.</span>
+                <button type="button" id="btnClearSign">Borrar firma</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="field">
+              <label for="firmante">Nombre del firmante</label>
+              <input id="firmante" name="firmante" type="text" placeholder="Nombre y apellido" />
+            </div>
+            <div class="field" style="margin-top:8px;">
+              <label for="cargo">Cargo / función</label>
+              <input id="cargo" name="cargo" type="text" placeholder="Operador / responsable" />
+            </div>
+            <div class="field" style="margin-top:8px;">
+              <label for="aclaracion">Aclaración adicional</label>
+              <input id="aclaracion" name="aclaracion" type="text" placeholder="Dato complementario" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer-note">
+        <span>INTERJAMA · Paso de Jama</span>
+        <span>Versión demostración sin persistencia</span>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    const dateInput = document.getElementById('fecha');
+    const timeInput = document.getElementById('hora');
+    const metaDate = document.getElementById('metaDate');
+    const metaTime = document.getElementById('metaTime');
+    const ticketNumber = document.getElementById('ticketNumber');
+    const btnNow = document.getElementById('btnNow');
+    const btnPrint = document.getElementById('btnPrint');
+    const btnReset = document.getElementById('btnReset');
+
+    function pad(number) {
+      return String(number).padStart(2, '0');
+    }
+
+    function updateTicketNumber(date) {
+      const value = 'TM-' + date.getFullYear() + pad(date.getMonth() + 1) + pad(date.getDate()) + '-' + pad(date.getHours()) + pad(date.getMinutes());
+      ticketNumber.textContent = value;
+    }
+
+    function syncMeta() {
+      if (dateInput.value) {
+        const [year, month, day] = dateInput.value.split('-');
+        metaDate.textContent = day + '/' + month + '/' + year;
+      } else {
+        metaDate.textContent = '--/--/----';
+      }
+
+      metaTime.textContent = timeInput.value || '--:--';
+    }
+
+    function setNow() {
+      const now = new Date();
+      dateInput.value = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+      timeInput.value = pad(now.getHours()) + ':' + pad(now.getMinutes());
+      updateTicketNumber(now);
+      syncMeta();
+    }
+
+    dateInput.addEventListener('change', syncMeta);
+    timeInput.addEventListener('change', syncMeta);
+    btnNow.addEventListener('click', setNow);
+    btnPrint.addEventListener('click', () => window.print());
+
+    btnReset.addEventListener('click', () => {
+      if (!confirm('Se limpiarán todos los datos cargados en este ticket.')) return;
+      document.querySelectorAll('input').forEach(input => {
+        if (input.type === 'button') return;
+        input.value = '';
+      });
+      document.querySelectorAll('textarea').forEach(textarea => textarea.value = '');
+      document.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+      clearSignature();
+      metaDate.textContent = '--/--/----';
+      metaTime.textContent = '--:--';
+      ticketNumber.textContent = 'TM-0001';
+      document.getElementById('puesto').value = 'Paso de Jama';
+    });
+
+    const canvas = document.getElementById('signaturePad');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+
+    function resizeCanvas() {
+      const ratio = Math.max(window.devicePixelRatio || 1, 1);
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * ratio;
+      canvas.height = rect.height * ratio;
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.strokeStyle = '#322922';
+    }
+
+    function getPoint(event) {
+      const rect = canvas.getBoundingClientRect();
+      const point = event.touches ? event.touches[0] : event;
+      return {
+        x: point.clientX - rect.left,
+        y: point.clientY - rect.top
+      };
+    }
+
+    function startDraw(event) {
+      drawing = true;
+      const point = getPoint(event);
+      ctx.beginPath();
+      ctx.moveTo(point.x, point.y);
+      event.preventDefault();
+    }
+
+    function draw(event) {
+      if (!drawing) return;
+      const point = getPoint(event);
+      ctx.lineTo(point.x, point.y);
+      ctx.stroke();
+      event.preventDefault();
+    }
+
+    function endDraw() {
+      drawing = false;
+    }
+
+    function clearSignature() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    document.getElementById('btnClearSign').addEventListener('click', clearSignature);
+
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', endDraw);
+    canvas.addEventListener('mouseleave', endDraw);
+    canvas.addEventListener('touchstart', startDraw, { passive: false });
+    canvas.addEventListener('touchmove', draw, { passive: false });
+    canvas.addEventListener('touchend', endDraw);
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    setNow();
+  </script>
+</body>
+</html>
